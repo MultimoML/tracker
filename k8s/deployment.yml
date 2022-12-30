@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracker
+  template:
+    metadata:
+      labels:
+        app: tracker
+    spec:
+      containers:
+        - name: tracker
+          image: ghcr.io/multimoml/tracker:latest
+          env:
+            - name: ACTIVE_ENV
+              value: "prod"
+            - name: PORT
+              value: "6003"
+          ports:
+            - containerPort: 6003
+              name: server
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /products/live
+              port: server
+            initialDelaySeconds: 10
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /products/ready
+              port: server
+            initialDelaySeconds: 10
+            periodSeconds: 3
+      terminationGracePeriodSeconds: 10
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracker
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6003
+      targetPort: server
+  selector:
+    app: tracker
