@@ -5,7 +5,7 @@ Microservice returns all new products.
 Available endpoints:
 - [`/live`](https://multimo.ml/tracker/live): Liveliness check
 - [`/ready`](https://multimo.ml/tracker/ready): Readiness check
-- [`/v1/all`](https://multimo.ml/tracker/v1/all): Returns a list of all new products
+- [`/v1/new`](https://multimo.ml/tracker/v1/new): Returns a list of all new products
 
 Branches:
 - [`main`](https://github.com/MultimoML/tracker/tree/main): Contains latest development version
