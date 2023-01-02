@@ -13,9 +13,11 @@ help: ## Print the help menu
 
 server: ## Run the microservice locally
 	go run main.go
+	swag init
 
+	
 run: build ## Run the microservice in a container
-	docker run -p 6001:6001 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/tracker:latest
+	docker run -p 6003:6003 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/tracker:latest
 
 build: tidy ## Build the Docker image
 	docker build -t ghcr.io/multimoml/tracker:latest .
