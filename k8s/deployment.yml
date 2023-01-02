@@ -26,13 +26,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /products/live
+              path: /tracker/live
               port: server
             initialDelaySeconds: 10
             periodSeconds: 3
           readinessProbe:
             httpGet:
-              path: /products/ready
+              path: /tracker/ready
               port: server
             initialDelaySeconds: 10
             periodSeconds: 3
