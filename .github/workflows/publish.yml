@@ -1,4 +1,4 @@
-name: Build a tagged Docker image and publish it
+name: Microservice deployment pipeline
 
 on:
   push:
@@ -28,21 +28,21 @@ jobs:
         with:
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/multimoml/tracker:v1.0.0,ghcr.io/multimoml/tracker:latest
+          tags: ghcr.io/multimoml/tracker:latest,ghcr.io/multimoml/tracker:1.0.0
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DO_ACCESS_TOKEN }}
 
-      - name: Set k8s deployment database password from Github secrets
-        run: sed -i "s/<DB_PASSWORD>/${{ secrets.DB_PASSWORD }}/g" k8s/deployment.yaml
+      #- name: Set k8s deployment database password from Github secrets
+      #  run: sed -i "s/<DB_PASSWORD>/${{ secrets.DB_PASSWORD }}/g" k8s/deployment.yml
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 prod
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f k8s/deployment.yaml
+        run: kubectl apply -f k8s/deployment.yml
 
       - name: Verify deployment
         run: kubectl rollout status deployment/tracker
