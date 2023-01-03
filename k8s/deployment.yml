@@ -51,3 +51,23 @@ spec:
       targetPort: server
   selector:
     app: tracker
+
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tracker
+  namespace: default
+
+spec:
+  entryPoints:
+    - websecure
+
+  routes:
+    - match: Host(`multimo.ml`) && PathPrefix(`/tracker/`)
+      kind: Rule
+      services:
+        - name: tracker
+          port: 6003
