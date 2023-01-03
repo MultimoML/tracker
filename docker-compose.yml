@@ -9,8 +9,7 @@ services:
     networks:
       - products-db
       - traefik-proxy
-    #    ports:
-    #      - "6001:6001"
+
     environment:
 
       # MongoDB
